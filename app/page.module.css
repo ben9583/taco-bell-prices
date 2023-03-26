@@ -1,0 +1,44 @@
+.content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  width: 100vw;
+}
+
+.title {
+  margin: 0;
+  font-size: 4rem;
+}
+
+.description {
+  font-size: 1.5rem;
+  margin-top: 0;
+}
+
+.searchUtility {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+
+.searchUtility > * {
+  margin: 0 1rem;
+}
+
+.input {
+  margin: 1rem 0;
+  padding: 0.5rem;
+  font-size: 1.5rem;
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius);
+}
+
+.button {
+  padding: 0.5rem 1rem;
+  font-size: 1.5rem;
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius);
+}
