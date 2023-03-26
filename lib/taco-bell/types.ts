@@ -200,7 +200,7 @@ export interface TacoBellProduct {
   code: string;
   name: string;
   url: string;
-  purchaseable: boolean;
+  purchasable: boolean;
   price: {
     currencyIso: string;
     formattedValue: string;
