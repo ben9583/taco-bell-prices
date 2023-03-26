@@ -4,7 +4,10 @@
   align-items: center;
   justify-content: center;
   height: 100vh;
-  width: 100vw;
+  width: 60vw;
+  min-width: 400px;
+  margin: auto auto;
+  text-align: center;
 }
 
 .title {
@@ -39,6 +42,27 @@
 .button {
   padding: 0.5rem 1rem;
   font-size: 1.5rem;
-  border: 1px solid var(--border-color);
+  background-color: var(--button-color);
+  border: 1px solid var(--button-border-color);
   border-radius: var(--border-radius);
+  color: var(--text-color);
+  transition: ease-in 0.1s;
+}
+
+.button:hover {
+  background-color: var(--button-hover-color);
+  border-color: var(--button-hover-border-color);
+}
+
+.storesContainer {
+  position: relative;
+  overflow-y: scroll;
+}
+
+.storesContainer::-webkit-scrollbar {
+  display: none;
+}
+
+.storesContainer > * {
+  padding-top: 0.5rem;
 }

@@ -8,6 +8,18 @@
   --font-size: 16px;
   --font-weight: 400;
   --line-height: 1.5;
+  --button-color: #404040;
+  --button-border-color: #363636;
+  --button-hover-color: #682A8F;
+  --button-hover-border-color: #682A8F;
+  --hollow-button-color: #26242b;
+  --hollow-button-border-color: #682A8F;
+  --hollow-button-hover-color: #404040;
+  --hollow-button-hover-border-color: #8053aa;
+  --filled-button-color: #682A8F;
+  --filled-button-border-color: #682A8F;
+  --filled-button-hover-color: #8053aa;
+  --filled-button-hover-border-color: #8053aa;
 }
 
 body {
