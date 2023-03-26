@@ -1,0 +1,57 @@
+.storeContainer {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: left;
+  text-align: left;
+  border: 2px none;
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  border-top-width: 0px;
+  border-radius: 2px;
+}
+
+.storeContainer:first-child {
+  border-top-width: 2px;
+}
+
+.details > * {
+  margin: 0 1rem;
+}
+
+.buttons {
+  display: flex;
+  flex-direction: row;
+  justify-content: left;
+  align-items: left;
+  text-align: left;
+}
+
+.pricesButton {
+  padding: 0.5rem 1rem;
+  font-size: 1.5rem;
+  background-color: var(--hollow-button-color);
+  border: 2px solid var(--hollow-button-border-color);
+  color: var(--text-color);
+  transition: ease-in 0.1s;
+}
+
+.compareButton {
+  padding: 0.5rem 1rem;
+  font-size: 1.5rem;
+  background-color: var(--filled-button-color);
+  border: 2px solid var(--filled-button-border-color);
+  color: var(--text-color);
+  transition: ease-in 0.1s;
+}
+
+.pricesButton:hover {
+  background-color: var(--hollow-button-hover-color);
+  border-color: var(--hollow-button-hover-border-color);
+}
+
+.compareButton:hover {
+  background-color: var(--filled-button-hover-color);
+  border-color: var(--filled-button-hover-border-color);
+}
