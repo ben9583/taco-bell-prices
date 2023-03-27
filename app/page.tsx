@@ -30,7 +30,6 @@ export default function Page() {
             }
 
             res2.json().then((data2: TacoBellPricesStores) => {
-              console.log(data2);
               setStores(data2);
               resolve(undefined);
             });
@@ -48,7 +47,7 @@ export default function Page() {
       <p className={styles.description}>Compare the prices of Taco Bell items across the country.</p>
 
       <div className={styles.searchUtility}>
-        <input type="text" className={styles.input} placeholder="Search by address, city, or zip" onKeyUp={e => setStoresInput((e.target as HTMLInputElement).value)} />
+        <input type="text" className={styles.input} placeholder="Search by address, city, or zip" onChange={e => setStoresInput(e.target.value)} value={storesInput} />
         <button className={styles.button} onClick={getStores}>Search</button>
       </div>
 
