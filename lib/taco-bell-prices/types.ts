@@ -42,3 +42,24 @@ export interface TacoBellPricesStores {
   longitude: number;
   nearByStores: TacoBellPricesStore[];
 }
+
+export interface TacoBellPricesProduct {
+  code: string;
+  name: string;
+  url: string;
+  purchasable: boolean;
+  price: {
+    currencyIso: string;
+    formattedValue: string;
+    priceType: string;
+    value: number;
+  },
+  images: string[];
+  calories: string;
+}
+
+export interface TacoBellPricesCategory {
+  code: string;
+  name: string;
+  products: TacoBellPricesProduct[];
+}

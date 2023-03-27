@@ -2,6 +2,7 @@ import styles from './TacoBellStoreBox.module.css';
 
 import React from 'react';
 import { TacoBellPricesStore } from '../lib/taco-bell-prices/types';
+import Link from 'next/link';
 
 export default function TacoBellStoreBox(props: { store: TacoBellPricesStore }) {
   const { store } = props;
@@ -14,7 +15,7 @@ export default function TacoBellStoreBox(props: { store: TacoBellPricesStore }) 
         <p>{store.formattedDistance}</p>
       </div>
       <div className={styles.buttons}>
-        <button className={styles.pricesButton}>View Prices</button>
+        <Link href={`/store/${store.storeNumber}`}><button className={styles.pricesButton}>View Prices</button></Link>
         <button className={styles.compareButton}>Add to Compare</button>
       </div>
     </div>
