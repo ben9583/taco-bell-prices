@@ -22,8 +22,6 @@ export default async function Page({ params }) {
     products.splice(0, 1);
   }
 
-  console.log(products[0].products[0].images)
-
   return (
     <div className={styles.productsContainer}>
       {products.map(category => (
