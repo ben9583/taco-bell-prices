@@ -3,9 +3,11 @@
   "packageManager": "yarn@3.5.0",
   "dependencies": {
     "eslint-config-next": "^13.2.4",
+    "htmlparser2": "^8.0.2",
     "next": "^13.2.4",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "semaphore": "^1.1.0",
     "sharp": "^0.32.0"
   },
   "scripts": {
@@ -17,6 +19,7 @@
   "devDependencies": {
     "@types/node": "18.15.10",
     "@types/react": "18.0.29",
+    "@types/semaphore": "^1.1.1",
     "typescript": "5.0.2"
   }
 }
