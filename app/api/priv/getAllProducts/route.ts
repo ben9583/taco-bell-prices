@@ -1,8 +1,8 @@
 import { writeFile } from "fs/promises";
 import { NextRequest, NextResponse } from "next/server";
 
-import { getAllUSLocations } from "../../../lib/taco-bell/locations";
-import type { TacoBellPricesCategory } from "../../../lib/taco-bell-prices/types";
+import { getAllUSLocations } from "../../../../lib/taco-bell/locations";
+import type { TacoBellPricesCategory } from "../../../../lib/taco-bell-prices/types";
 
 export function POST(request: NextRequest) {
   const token = request.headers.get("token");
