@@ -63,3 +63,21 @@ export interface TacoBellPricesCategory {
   name: string;
   products: TacoBellPricesProduct[];
 }
+
+export interface TacoBellPricesCategoryWithAveragePrice extends TacoBellPricesCategory {
+  products: {
+    code: string;
+    name: string;
+    price: {
+      currencyIso: string;
+      formattedValue: string;
+      value: number;
+      priceType: string;
+    };
+    images: string[];
+    averagePrice?: number;
+    url: string;
+    purchasable: boolean;
+    calories: string;
+  }[]
+}

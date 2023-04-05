@@ -10,6 +10,7 @@ interface PricesItemsComparison {
     name: string;
     prices: number[];
     formattedPrices: string[];
+    averagePrice?: number;
   }[];
 };
 
@@ -20,6 +21,8 @@ export default async function Page(props: { params: {}, searchParams: { stores?:
 
   const stores = props.searchParams.stores.split(",");
   const products: TacoBellPricesCategory[][] = [];
+
+  const sigmoid = (x: number) => 1 / (1 + Math.exp(-2*x));
 
   for(let id of stores) {
     if(!id) {
@@ -45,6 +48,9 @@ export default async function Page(props: { params: {}, searchParams: { stores?:
     }
   }
 
+  const res2 = await fetch(`http://127.0.0.1:3000/api/getAllProducts`);
+  const averagePrices: { code: string, name: string, averagePrice: number }[] = res2.ok ? await res2.json() : [];
+
   const productsComparison: PricesItemsComparison[] = [];
 
   for(let storeIdx = 0; storeIdx < products.length; storeIdx++) {
@@ -68,7 +74,8 @@ export default async function Page(props: { params: {}, searchParams: { stores?:
           foundProduct = {
             name: product.name,
             prices: [],
-            formattedPrices: []
+            formattedPrices: [],
+            averagePrice: averagePrices.find(p => p.code === product.code)?.averagePrice ?? NaN
           };
           
           foundCategory.products.push(foundProduct);
@@ -115,7 +122,7 @@ export default async function Page(props: { params: {}, searchParams: { stores?:
                 <h3>{prod.name}</h3>
               </div>
               {prod.formattedPrices.map((price, priceIdx) => (
-                <div key={priceIdx}>
+                <div key={priceIdx} style={{backgroundColor: prod.averagePrice ? `hsl(${120 * sigmoid((prod.averagePrice - parseInt(price.substring(1))) / (prod.averagePrice / 2))}, 100%, 33%)` : ''}}>
                   <p>{price}</p>
                 </div>
               ))}

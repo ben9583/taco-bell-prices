@@ -2,25 +2,7 @@ import styles from './page.module.css'
 
 import { notFound } from 'next/navigation';
 import Image from 'next/image';
-import type { TacoBellPricesCategory } from '../../../lib/taco-bell-prices/types';
-
-interface TacoBellPricesCategoryWithAveragePrice extends TacoBellPricesCategory {
-  products: {
-    code: string;
-    name: string;
-    price: {
-      currencyIso: string;
-      formattedValue: string;
-      value: number;
-      priceType: string;
-    };
-    images: string[];
-    averagePrice?: number;
-    url: string;
-    purchasable: boolean;
-    calories: string;
-  }[]
-}
+import type { TacoBellPricesCategoryWithAveragePrice } from '../../../lib/taco-bell-prices/types';
 
 export default async function Page({ params }) {
   const { id } = params;
