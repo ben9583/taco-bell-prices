@@ -28,7 +28,6 @@
 
 .product {
   width: 300px;
-  height: 150px;
   overflow-x: wrap;
   white-space: normal;
 }
