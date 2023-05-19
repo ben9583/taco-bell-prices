@@ -19,7 +19,7 @@ export function POST(request: NextRequest) {
 
   getAllUSLocations().then(async (locations) => {
     console.log("Getting prices from each location...")
-    const products: { code: string, name: string, cumulativePrice: number, amount: number }[] = []
+    const products: { code: string, name: string, priceList: number[],}[] = []
 
     for(let location of locations) {
       // These locations are present on the locations database, but don't have an online menu, presumably because they are small, rural locations.
@@ -36,10 +36,9 @@ export function POST(request: NextRequest) {
         for(let product of category.products) {
           const existingProduct = products.find(p => p.code === product.code)
           if(existingProduct) {
-            existingProduct.cumulativePrice += product.price.value
-            existingProduct.amount++
+            existingProduct.priceList.push(product.price.value)
           } else {
-            products.push({ code: product.code, name: product.name, cumulativePrice: product.price.value, amount: 1 })
+            products.push({ code: product.code, name: product.name, priceList: [product.price.value] })
           }
         }
       }
@@ -53,7 +52,12 @@ export function POST(request: NextRequest) {
       return {
         code: product.code,
         name: product.name,
-        averagePrice: product.cumulativePrice / product.amount
+        price: {
+          average: product.priceList.reduce((a, b) => a + b, 0) / product.priceList.length,
+          min: Math.min(...product.priceList),
+          max: Math.max(...product.priceList),
+          stddev: Math.sqrt(product.priceList.map(x => Math.pow(x - product.priceList.reduce((a, b) => a + b, 0) / product.priceList.length, 2)).reduce((a, b) => a + b, 0) / product.priceList.length),
+        }
       }
     })
 
