@@ -4,19 +4,16 @@ import { Fragment } from 'react';
 import { notFound } from "next/navigation"
 import { TacoBellPricesCategory } from '../../lib/taco-bell-prices/types';
 
-interface PricesItemsComparison {
-  category: string;
-  products: {
-    name: string;
-    prices: number[];
-    formattedPrices: string[];
-    priceStats: {
-      average: number;
-      min: number;
-      max: number;
-      stddev: number;
-    }
-  }[];
+interface ItemWithPrices {
+  name: string;
+  prices: number[];
+  formattedPrices: string[];
+  priceStats: {
+    average: number;
+    min: number;
+    max: number;
+    stddev: number;
+  }
 };
 
 export default async function Page(props: { params: {}, searchParams: { stores?: string }}) {
@@ -56,25 +53,17 @@ export default async function Page(props: { params: {}, searchParams: { stores?:
   const res2 = await fetch(`http://127.0.0.1:3000/api/getAllProducts`);
   const averagePrices: { code: string, name: string, price: { average: number, min: number, max: number, stddev: number }}[] = res2.ok ? await res2.json() : [];
 
-  const productsComparison: PricesItemsComparison[] = [];
+  const productsComparison: ItemWithPrices[] = [];
 
   for(let storeIdx = 0; storeIdx < products.length; storeIdx++) {
+    const alreadyAdded: string[] = [];
     for(let catIdx = 0; catIdx < products[storeIdx].length; catIdx++) {
-      const category = products[storeIdx][catIdx];
-
-      let foundCategory = productsComparison.find(p => p.category === category.name);
-      if(!foundCategory) {
-        foundCategory = {
-          category: category.name,
-          products: []
-        };
-        productsComparison.push(foundCategory);
-      }
-
       for(let prodIdx = 0; prodIdx < products[storeIdx][catIdx].products.length; prodIdx++) {
         const product = products[storeIdx][catIdx].products[prodIdx];
-
-        let foundProduct = foundCategory.products.find(p => p.name === product.name);
+        if(alreadyAdded.includes(product.name)) continue;
+        alreadyAdded.push(product.name);
+        
+        let foundProduct = productsComparison.find(p => p.name === product.name);
         if(!foundProduct) {
           foundProduct = {
             name: product.name,
@@ -83,7 +72,7 @@ export default async function Page(props: { params: {}, searchParams: { stores?:
             priceStats: averagePrices.find(p => p.code === product.code)?.price ?? { average: NaN, min: NaN, max: NaN, stddev: NaN }
           };
           
-          foundCategory.products.push(foundProduct);
+          productsComparison.push(foundProduct);
         }
 
         for(let i = foundProduct.prices.length; i < storeIdx; i++) {
@@ -96,16 +85,14 @@ export default async function Page(props: { params: {}, searchParams: { stores?:
     }
   }
 
-  for(let catIdx = 0; catIdx < productsComparison.length; catIdx++) {
-    for(let prodIdx = 0; prodIdx < productsComparison[catIdx].products.length; prodIdx++) {
-      for(let i = productsComparison[catIdx].products[prodIdx].prices.length; i < stores.length; i++) {
-        productsComparison[catIdx].products[prodIdx].prices.push(NaN);
-        productsComparison[catIdx].products[prodIdx].formattedPrices.push("N/A");
-      }
+  for(let prodIdx = 0; prodIdx < productsComparison.length; prodIdx++) {
+    for(let i = productsComparison[prodIdx].prices.length; i < stores.length; i++) {
+      productsComparison[prodIdx].prices.push(NaN);
+      productsComparison[prodIdx].formattedPrices.push("N/A");
     }
   }
 
-  console.log(productsComparison[0].products[0].prices)
+  console.log(productsComparison[0].prices)
 
   return (
     <div style={{display: "grid", gridTemplateColumns: stores.map(_ => "auto").join(" ") + " auto"}}>
@@ -115,23 +102,15 @@ export default async function Page(props: { params: {}, searchParams: { stores?:
           <h1>{store}</h1>
         </div>
       ))}
-      {productsComparison.map((cat, catIdx) => (
-        <Fragment key={catIdx}>
-          <div key={catIdx}>
-            <h2>{cat.category}</h2>
+      {productsComparison.map((prod, prodIdx) => (
+        <Fragment key={prodIdx}>
+          <div key={prodIdx}>
+            <h3>{prod.name}</h3>
           </div>
-          {stores.map((_, i) => <div key={i}></div>)}
-          {cat.products.map((prod, prodIdx) => (
-            <Fragment key={prodIdx}>
-              <div key={prodIdx}>
-                <h3>{prod.name}</h3>
-              </div>
-              {prod.formattedPrices.map((price, priceIdx) => (
-                <div key={priceIdx} style={{backgroundColor: prod.priceStats.average ? `hsl(${120 * sigmoid((prod.priceStats.average - parseInt(price.substring(1))) / (prod.priceStats.stddev || 0.01))}, 100%, 33%)` : ''}}>
-                  <p>{price}</p>
-                </div>
-              ))}
-            </Fragment>
+          {prod.formattedPrices.map((price, priceIdx) => (
+            <div key={priceIdx} style={{backgroundColor: prod.priceStats.average ? `hsl(${120 * sigmoid((prod.priceStats.average - parseInt(price.substring(1))) / (prod.priceStats.stddev || 0.01))}, 100%, 33%)` : ''}}>
+              <p>{price}</p>
+            </div>
           ))}
         </Fragment>
       ))}
