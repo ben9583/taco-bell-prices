@@ -32,7 +32,6 @@ export default async function Page({ params }) {
         const foundProduct = allProducts.find(p => p.code === product.code);
         if(foundProduct) {
           product.priceStats = foundProduct.price;
-          console.log(foundProduct)
         }
       })
     })

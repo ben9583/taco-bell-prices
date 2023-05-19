@@ -33,7 +33,6 @@ export default async function Page(props: { params: {}, searchParams: { stores?:
 
     const res = await fetch(`http://127.0.0.1:3000/api/products?storeID=${id}`, { next: { revalidate: 86400 }});
     if(res.status !== 200) {
-      console.log(id)
       notFound();
     }
 
@@ -91,8 +90,6 @@ export default async function Page(props: { params: {}, searchParams: { stores?:
       productsComparison[prodIdx].formattedPrices.push("N/A");
     }
   }
-
-  console.log(productsComparison[0].prices)
 
   return (
     <div style={{display: "grid", gridTemplateColumns: stores.map(_ => "auto").join(" ") + " auto"}}>
