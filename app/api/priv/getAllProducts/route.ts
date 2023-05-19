@@ -22,7 +22,14 @@ export function POST(request: NextRequest) {
     const products: { code: string, name: string, cumulativePrice: number, amount: number }[] = []
 
     for(let location of locations) {
+      // These locations are present on the locations database, but don't have an online menu, presumably because they are small, rural locations.
+      if(location.match(/[A-Z]/)) continue
+
       const response = await fetch(`http://127.0.0.1:3000/api/products?storeID=${location}`)
+      
+      // We try not to overwhelm Taco Bell with requests, but in case we do...
+      if(!response.ok) continue
+      
       const json: TacoBellPricesCategory[] = await response.json()
 
       for(let category of json) {
