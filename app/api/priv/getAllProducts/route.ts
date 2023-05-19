@@ -17,45 +17,40 @@ export function POST(request: NextRequest) {
   console.log("Begin getting average prices")
   console.log("Getting list of all US locations...")
 
-  getAllUSLocations().then(locations => {
+  getAllUSLocations().then(async (locations) => {
     console.log("Getting prices from each location...")
     const products: { code: string, name: string, cumulativePrice: number, amount: number }[] = []
-    const promises: Promise<any>[] = []
-    let i = 0
-    for(let location of locations) {
-      i++
-      setTimeout(() => promises.push(fetch(`http://127.0.0.1:3000/api/products?storeID=${location}`).then(async (response) => {
-        const json: TacoBellPricesCategory[] = await response.json()
 
-        for(let category of json) {
-          for(let product of category.products) {
-            const existingProduct = products.find(p => p.code === product.code)
-            if(existingProduct) {
-              existingProduct.cumulativePrice += product.price.value
-              existingProduct.amount++
-            } else {
-              products.push({ code: product.code, name: product.name, cumulativePrice: product.price.value, amount: 1 })
-            }
+    for(let location of locations) {
+      const response = await fetch(`http://127.0.0.1:3000/api/products?storeID=${location}`)
+      const json: TacoBellPricesCategory[] = await response.json()
+
+      for(let category of json) {
+        for(let product of category.products) {
+          const existingProduct = products.find(p => p.code === product.code)
+          if(existingProduct) {
+            existingProduct.cumulativePrice += product.price.value
+            existingProduct.amount++
+          } else {
+            products.push({ code: product.code, name: product.name, cumulativePrice: product.price.value, amount: 1 })
           }
         }
-      }).finally(() => console.log(`Done with ${location}`))), 10 * i)
+      }
+      
     }
 
-    setTimeout(() => Promise.allSettled(promises).then(() => {
-      console.log("Averaging over all prices...")
+    console.log("Averaging over all prices...")
+    console.log(products.length)
 
-      console.log(products.length)
+    const averagePrices = products.map(product => {
+      return {
+        code: product.code,
+        name: product.name,
+        averagePrice: product.cumulativePrice / product.amount
+      }
+    })
 
-      const averagePrices = products.map(product => {
-        return {
-          code: product.code,
-          name: product.name,
-          averagePrice: product.cumulativePrice / product.amount
-        }
-      })
-
-      writeFile("./averagePrices.json", JSON.stringify(averagePrices)).then(() => console.log("Done!"))
-    }), 10 * i + 1000)
+    writeFile("./averagePrices.json", JSON.stringify(averagePrices)).then(() => console.log("Done!"))
   })
 
   return NextResponse.json({ message: "Accepted" }, { status: 202 });
