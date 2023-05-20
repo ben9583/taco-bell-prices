@@ -223,13 +223,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/semaphore@npm:^1.1.1":
-  version: 1.1.1
-  resolution: "@types/semaphore@npm:1.1.1"
-  checksum: 4d5e93046acb885fab46c1f196b5d34dbd708488630b5a53aa7a2aeb2ff4b129636b2ae561bad80bfa49305aa4babbdb5be3bb6e01e1157331a2c82ac6dbad5a
-  languageName: node
-  linkType: hard
-
 "@typescript-eslint/parser@npm:^5.42.0":
   version: 5.56.0
   resolution: "@typescript-eslint/parser@npm:5.56.0"
@@ -2694,13 +2687,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"semaphore@npm:^1.1.0":
-  version: 1.1.0
-  resolution: "semaphore@npm:1.1.0"
-  checksum: d2445d232ad9959048d4748ef54eb01bc7b60436be2b42fb7de20c4cffacf70eafeeecd3772c1baf408cfdce3805fa6618a4389590335671f18cde54ef3cfae4
-  languageName: node
-  linkType: hard
-
 "semver@npm:^6.3.0":
   version: 6.3.0
   resolution: "semver@npm:6.3.0"
@@ -3022,15 +3008,14 @@ __metadata:
   dependencies:
     "@types/node": 18.15.10
     "@types/react": 18.2.6
-    "@types/semaphore": ^1.1.1
     eslint-config-next: ^13.4.3
     htmlparser2: ^9.0.0
     next: ^13.4.3
     react: ^18.2.0
     react-dom: ^18.2.0
-    semaphore: ^1.1.0
     sharp: ^0.32.1
     typescript: 5.0.4
+    uuid: ^9.0.0
   languageName: unknown
   linkType: soft
 
@@ -3210,6 +3195,15 @@ __metadata:
   version: 1.0.2
   resolution: "util-deprecate@npm:1.0.2"
   checksum: 474acf1146cb2701fe3b074892217553dfcf9a031280919ba1b8d651a068c9b15d863b7303cb15bd00a862b498e6cf4ad7b4a08fb134edd5a6f7641681cb54a2
+  languageName: node
+  linkType: hard
+
+"uuid@npm:^9.0.0":
+  version: 9.0.0
+  resolution: "uuid@npm:9.0.0"
+  bin:
+    uuid: dist/bin/uuid
+  checksum: 8dd2c83c43ddc7e1c71e36b60aea40030a6505139af6bee0f382ebcd1a56f6cd3028f7f06ffb07f8cf6ced320b76aea275284b224b002b289f89fe89c389b028
   languageName: node
   linkType: hard
 

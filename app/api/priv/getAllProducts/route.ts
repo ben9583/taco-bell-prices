@@ -5,13 +5,17 @@ import { getAllUSLocations } from "../../../../lib/taco-bell/locations";
 import type { TacoBellPricesCategory } from "../../../../lib/taco-bell-prices/types";
 
 export function POST(request: NextRequest) {
-  const token = request.headers.get("token");
-  if (!token) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-  }
+  if(process.env.GET_PRODUCTS_TOKEN.length > 0) {
+    const token = request.headers.get("token");
+    if (!token) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
 
-  if (token !== "33d7c5a7-e40b-4ece-b2fd-01b315b2320b") { // Ok not the most secure but this is a simple way to do it and it doesn't really matter
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    if (token !== process.env.GET_PRODUCTS_TOKEN) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
+  } else {
+    console.warn("WARN: GET_PRODUCTS_TOKEN is not set in .env. Anyone can make a post request to /api/priv/getAllProducts to generate the averagePrices.json file. This is probably not a good idea!!!")
   }
 
   console.log("Begin getting average prices")
