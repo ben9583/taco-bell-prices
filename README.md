@@ -2,7 +2,7 @@
 
 *A website that grabs the latest price data between Taco Bell locations in the US and compares them to national averages.*
 
-![Taco Bell Prices Demonstration](https://example.com)
+![Taco Bell Prices Demonstration](https://github.com/ben9583/taco-bell-prices/assets/16968917/a21f406e-bbac-4fae-9487-0058a1a64575)
 
 # Why...?
 
@@ -14,21 +14,21 @@ This website uses the Taco Bell API to gather pricing data on locations across t
 
 Let's go back to the scenario at the top and view the pricing data for party packs in Berkeley:
 
-![Berkeley Taco Bell prices](https://example.com)
+![Berkeley Taco Bell prices](https://github.com/ben9583/taco-bell-prices/assets/16968917/41abbc57-57ba-4b46-903a-9366d340a90c)
 
 The prices vary from $23-$33, and the red background indicates this is significantly above the national average. However, if we look at Oakland's prices just a couple miles away, we see the following:
 
-![Oakland Taco Bell prices](https://example.com)
+![Oakland Taco Bell prices](https://github.com/ben9583/taco-bell-prices/assets/16968917/25bb42e3-01b6-431b-bcb3-08d1444adf20)
 
 You can save as much as $5 on party packs by just walking to a different Taco Bell location. This breakdown can be viewed using the comparison tool:
 
-![Berkeley Oakland Comparison](https://example.com)
+![Berkeley Oakland Comparison](https://github.com/ben9583/taco-bell-prices/assets/16968917/2a86ec4e-81a1-4969-a67f-90861540a902)
 
 You can add as many stores as you like to the comparison tool and find the one near you that has the best prices for what you want to buy (or, you can use the colors to find something that has the best value and find its location).
 
 It's worth noting that locations are not universally more expensive than the other — Berkeley has a Taco & Burrito Cravings Pack that is *way cheaper!*
 
-![Berkeley Strange Deal](https://example.com)
+![Berkeley Strange Deal](https://github.com/ben9583/taco-bell-prices/assets/16968917/3fc272ef-fd37-4ed7-86b7-0cc16a15e4e8)
 
 You'll find all sorts of idiosyncrasies like this where you are. Berkeley just happens to be where I made this project.
 
