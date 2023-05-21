@@ -1,3 +1,4 @@
+import Footer from '../components/Footer';
 import './globals.css'
 
 export default function RootLayout({ children }) {
@@ -6,7 +7,10 @@ export default function RootLayout({ children }) {
       <head>
         <title>Taco Bell Price Comparer</title>
       </head>
-      <body>{children}</body>
+      <body>
+        {children}
+        <Footer />
+      </body>
     </html>
   );
 }
