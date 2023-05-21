@@ -1,4 +1,4 @@
-# Taco Bell Prices Website
+# Taco Bell Price Comparer
 
 *A website that grabs the latest price data between Taco Bell locations in the US and compares them to national averages.*
 
