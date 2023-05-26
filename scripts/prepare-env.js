@@ -4,6 +4,11 @@ const { v4 } = require("uuid");
 const env = readFileSync(".env.template").toString();
 const envVars = env.split("\n");
 
+if(readFileSync(".env").toString()) {
+  console.log("An .env file already exists. No changes have been made.")
+  return;
+}
+
 const envFile = envVars.reduce((acc, envVar) => {
   const [key, value] = envVar.split("=");
 
