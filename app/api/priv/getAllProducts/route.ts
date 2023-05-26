@@ -1,10 +1,13 @@
-import { writeFile } from "fs/promises";
+import * as redis from "redis";
+import { promisify } from "util";
 import { NextRequest, NextResponse } from "next/server";
 
 import { getAllUSLocations } from "../../../../lib/taco-bell/locations";
 import type { TacoBellPricesCategory } from "../../../../lib/taco-bell-prices/types";
 
-export function POST(request: NextRequest) {
+const redisClient = redis.createClient();
+
+export async function POST(request: NextRequest) {
   if(process.env.GET_PRODUCTS_TOKEN.length > 0) {
     const token = request.headers.get("token");
     if (!token) {
@@ -20,6 +23,8 @@ export function POST(request: NextRequest) {
 
   console.log("Begin getting average prices")
   console.log("Getting list of all US locations...")
+
+  const cacheKey = "allProducts";
 
   getAllUSLocations().then(async (locations) => {
     console.log("Getting prices from each location...")
@@ -42,36 +47,19 @@ export function POST(request: NextRequest) {
           if(existingProduct) {
             existingProduct.priceList.push(product.price.value)
           } else {
-            products.push({ code: product.code, name: product.name, priceList: [product.price.value] })
+            products.push({
+              code: product.code,
+              name: product.name,
+              priceList: [product.price.value],
+            })
           }
         }
       }
-      
     }
 
-    console.log("Averaging over all prices...")
-    console.log(products.length)
-
-    const averagePrices = products.map(product => {
-      return {
-        code: product.code,
-        name: product.name,
-        price: {
-          average: product.priceList.reduce((a, b) => a + b, 0) / product.priceList.length,
-          min: Math.min(...product.priceList),
-          max: Math.max(...product.priceList),
-          stddev: Math.sqrt(product.priceList.map(x => Math.pow(x - product.priceList.reduce((a, b) => a + b, 0) / product.priceList.length, 2)).reduce((a, b) => a + b, 0) / product.priceList.length),
-        }
-      }
-    })
-
-    writeFile("./averagePrices.json", JSON.stringify(averagePrices)).then(() => console.log("Done!"))
-  })
+    console.log("Writing data to cache...");
+    redisClient.set(cacheKey, JSON.stringify(products), { "EX": 43200 }); // Cache for 12 hours
+  });
 
   return NextResponse.json({ message: "Accepted" }, { status: 202 });
-
-}
-
-export function GET(request: NextRequest) {
-  return NextResponse.json({ message: "Method not allowed" }, { status: 405 });
 }
