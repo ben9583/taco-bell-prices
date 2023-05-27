@@ -102,4 +102,4 @@ Here are some helpful resources you might want to use when working on this proje
 
 ## License
 
-This project is licensed under AGPL 3.0, the details of which can be found in the `LICENSE` file.
+This project is licensed under AGPL 3.0, the details of which can be found in the `LICENSE` file. **Heads up**: If you modify and distribute this software, *even over a network (which includes serving it as a website!)*, you must link your source code on the webpage. I recommend you do this by adding another link in the footer or replacing my own link, but you still have to keep the copyright notice and not modify the license.
