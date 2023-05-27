@@ -8,7 +8,9 @@ export default function RootLayout({ children }) {
         <title>Taco Bell Price Comparer</title>
       </head>
       <body>
-        {children}
+        <div style={{ marginBottom: "96px" }}>
+          {children}
+        </div>
         <Footer />
       </body>
     </html>
