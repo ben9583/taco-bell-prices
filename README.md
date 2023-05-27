@@ -50,6 +50,8 @@ This project is built with React on Next.js 13 with the `app` directory. Buildin
 
 **Please ensure NodeJS v18 is installed on your system as is Git before starting. This project uses Yarn 2, please enable yarn with `corepack enable` before continuing.**
 
+**This project now uses Redis to store national pricing data. Please make sure you have Redis installed *and* that the service is up and running!**
+
 Run the following commands to get started:
 
 ```sh
@@ -62,7 +64,7 @@ This will download the project and install the `npm` packages. It will also comp
 
 ## Note About Getting National Pricing Data
 
-Right now, the only environment variable is `GET_PRODUCTS_TOKEN`, which is a token used to authenticate requests to generate the `locations.json` and `averagePrices.json` files which are referenced for coloring the prices in as reference for national averages. When you run `yarn`, a post-install script is run that automatically generates a random UUID as your token. You can change this in `.env` to whatever you'd like, or delete it to remove the token as a security measure.
+Right now, the only environment variable is `GET_PRODUCTS_TOKEN`, which is a token used to authenticate requests to generate the national pricing data which are referenced for coloring the prices in as reference for national averages. When you run `yarn`, a post-install script is run that automatically generates a random UUID as your token. You can change this in `.env` to whatever you'd like, or delete it to remove the token as a security measure.
 
 You can generate these files by making a post request to the `/api/priv/getAllProducts` endpoint and setting the `token` header to the value in `GET_PRODUCTS_TOKEN`:
 
@@ -74,7 +76,7 @@ Run this everytime you want to update pricing data. I would do this every few da
 
 You can set `GET_PRODUCTS_TOKEN` to whatever you'd like or leave it empty to remove the token-based authentication. I don't recommend this however, as it allows anyone to DOS Taco Bell's API, whose infrastructure is surprisingly weak and can be easily overwhelmed by a single network making enough `fetch` requests.
 
-You don't need to do any of this to have a functioning website. The only difference is that it provides national data to color in each of the items as being good deals nationally. If these files are missing, the colors will not show but you can still compare against a list of stores of your selection.
+You don't need to do any of this to have a functioning website. The only difference is that it provides national data to color in each of the items as being good deals nationally. If these data are missing, the colors will not show but you can still compare against a list of stores of your selection.
 
 ## Developing and Deploying
 

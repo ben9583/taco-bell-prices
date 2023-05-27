@@ -14,5 +14,3 @@ node_modules
 .next
 
 .env
-averagePrices.json
-locations.json
