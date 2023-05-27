@@ -1,11 +1,10 @@
 import * as redis from "redis";
-import { promisify } from "util";
 import { NextRequest, NextResponse } from "next/server";
 
 import { getAllUSLocations } from "../../../../lib/taco-bell/locations";
 import type { TacoBellPricesCategory } from "../../../../lib/taco-bell-prices/types";
 
-const redisClient = redis.createClient();
+const client = redis.createClient()
 
 export async function POST(request: NextRequest) {
   if(process.env.GET_PRODUCTS_TOKEN.length > 0) {
@@ -57,8 +56,24 @@ export async function POST(request: NextRequest) {
       }
     }
 
+    const averagePrices = products.map(product => {
+      return {
+        code: product.code,
+        name: product.name,
+        price: {
+          average: product.priceList.reduce((a, b) => a + b, 0) / product.priceList.length,
+          min: Math.min(...product.priceList),
+          max: Math.max(...product.priceList),
+          stddev: Math.sqrt(product.priceList.map(x => Math.pow(x - product.priceList.reduce((a, b) => a + b, 0) / product.priceList.length, 2)).reduce((a, b) => a + b, 0) / product.priceList.length),
+        }
+      }
+    })
+
     console.log("Writing data to cache...");
-    redisClient.set(cacheKey, JSON.stringify(products), { "EX": 43200 }); // Cache for 12 hours
+
+    await client.connect();
+    client.set(cacheKey, JSON.stringify(averagePrices), { "EX": 43200 }); // Cache for 12 hours
+    client.disconnect();
   });
 
   return NextResponse.json({ message: "Accepted" }, { status: 202 });

@@ -1,10 +1,12 @@
 import * as redis from "redis";
 
-const redisClient = redis.createClient();
+const client = redis.createClient();
 
 export const getAveragePrices = async () => {
-  const cacheKey = "averagePrices";
-  const cachedData = await redisClient.get(cacheKey);
+  const cacheKey = "allProducts";
+  await client.connect()
+  const cachedData = await client.get(cacheKey);
+  client.disconnect();
 
   if (cachedData) {
     console.log("Retrieved data from cache");
