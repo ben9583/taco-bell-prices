@@ -82,6 +82,8 @@ You don't need to do any of this to have a functioning website. The only differe
 
 The development and deployment process is pretty straightforward as the process follows a typical Next.js project. Simply run `yarn dev` to start a development server and `yarn build && yarn start` to build and host a production deployment. Please note that Next.js 13 is still in development at time of writing, and I have had some issues with running these commands in the past that were fixed by updating Next.js.
 
+Remember to start your redis instance beforehand! This project uses the node `redis` package, so you can update your environment variables respectively to change the port/url of the instance if you'd like.
+
 ## Known Issues
 
 There are a few issues that I would hope to have resolved when this project is completed:
