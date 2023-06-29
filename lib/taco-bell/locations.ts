@@ -40,7 +40,7 @@ export const getAllUSLocations = async (): Promise<string[]> => {
       if(directoryLevel == 3) {
         locations.push(getStoreIDFromWebsite(cityDoc))
       } else {
-        const cityLocationElements = DomUtils.findAll((node) => DomUtils.getAttributeValue(node, 'class') === 'Directory-listLink', cityDoc.childNodes)
+        const cityLocationElements = DomUtils.findAll((node) => DomUtils.getAttributeValue(node, 'class') === 'Teaser-viewPage', cityDoc.childNodes)
         for(let j = 0; j < cityLocationElements.length; j++) {
           const cityLocation = cityLocationElements[j]
           const cityLocationUrl = cityLocation.attributes.find((attr: any) => attr.name === "href").value
