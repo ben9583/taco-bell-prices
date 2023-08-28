@@ -27,13 +27,12 @@ export default async function Page({ params }) {
   const res2 = await fetch(`http://127.0.0.1:3000/api/getAllProducts`);
   if(res2.ok) {
     const allProducts: { code: string, name: string, price: { average: number, min: number, max: number, stddev: number } }[] = await res2.json();
+    console.log(JSON.stringify(allProducts, null, 2))
     products.map(category => {
       category.products.map(product => {
         const foundProduct = allProducts.find(p => p.code === product.code);
         if(foundProduct) {
-          console.log(foundProduct)
           product.priceStats = foundProduct.price;
-          console.log("a")
         }
       })
     })

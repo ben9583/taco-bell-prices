@@ -72,7 +72,7 @@ export async function POST(request: NextRequest) {
     console.log("Writing data to cache...");
 
     await client.connect();
-    await client.set(cacheKey, JSON.stringify(averagePrices), { "EX": 43200 }); // Cache for 12 hours
+    await client.set(cacheKey, JSON.stringify(averagePrices));
     console.log("Done!");
     await client.disconnect();
   });
