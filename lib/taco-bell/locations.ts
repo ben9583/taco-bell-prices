@@ -44,7 +44,7 @@ export const getAllUSLocations = async (): Promise<string[]> => {
         for(let j = 0; j < cityLocationElements.length; j++) {
           const cityLocation = cityLocationElements[j]
           const cityLocationUrl = cityLocation.attributes.find((attr: any) => attr.name === "href").value
-          const cityLocationDoc = await getDocFromUrl(`https://locations.tacobell.com/${cityLocationUrl}`)
+          const cityLocationDoc = await getDocFromUrl(`https://locations.tacobell.com/${cityLocationUrl.replaceAll("../", "")}`)
           locations.push(getStoreIDFromWebsite(cityLocationDoc))
         }
       }

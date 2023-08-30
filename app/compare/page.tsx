@@ -5,6 +5,7 @@ import { notFound } from "next/navigation"
 import { TacoBellPricesCategory } from '../../lib/taco-bell-prices/types';
 
 interface ItemWithPrices {
+  code: string;
   name: string;
   prices: number[];
   formattedPrices: string[];
@@ -62,9 +63,12 @@ export default async function Page(props: { params: {}, searchParams: { stores?:
         if(alreadyAdded.includes(product.name)) continue;
         alreadyAdded.push(product.name);
         
-        let foundProduct = productsComparison.find(p => p.name === product.name);
+        let foundProduct = productsComparison.find(p => p.code === product.code);
+        if(!foundProduct) foundProduct = productsComparison.find(p => p.name === product.name);
+        
         if(!foundProduct) {
           foundProduct = {
+            code: product.code,
             name: product.name,
             prices: [],
             formattedPrices: [],

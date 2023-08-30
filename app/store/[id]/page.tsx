@@ -30,7 +30,9 @@ export default async function Page({ params }) {
     console.log(JSON.stringify(allProducts, null, 2))
     products.map(category => {
       category.products.map(product => {
-        const foundProduct = allProducts.find(p => p.code === product.code);
+        let foundProduct = allProducts.find(p => p.code === product.code);
+        if(!foundProduct) foundProduct = allProducts.find(p => p.name === product.name);
+        
         if(foundProduct) {
           product.priceStats = foundProduct.price;
         }
