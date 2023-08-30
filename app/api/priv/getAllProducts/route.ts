@@ -75,6 +75,8 @@ export async function POST(request: NextRequest) {
     await client.set(cacheKey, JSON.stringify(averagePrices));
     console.log("Done!");
     await client.disconnect();
+    console.log("Output: ")
+    console.log(JSON.stringify(averagePrices, null, 2))
   });
 
   return NextResponse.json({ message: "Accepted" }, { status: 202 });
