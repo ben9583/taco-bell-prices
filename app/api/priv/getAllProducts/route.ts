@@ -76,7 +76,14 @@ export async function POST(request: NextRequest) {
     console.log("Done!");
     await client.disconnect();
     console.log("Output: ")
-    console.log(JSON.stringify(averagePrices, null, 2))
+
+    const metadata = {
+      datetime: new Date().toISOString(),
+      numLocations: locations.length,
+      numProducts: products.length,
+    }
+    const output = { metadata, averagePrices, locations };
+    console.log(JSON.stringify(output, null, 2))
   });
 
   return NextResponse.json({ message: "Accepted" }, { status: 202 });
