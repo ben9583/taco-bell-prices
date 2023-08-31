@@ -27,7 +27,7 @@ export async function POST(request: NextRequest) {
 
   getAllUSLocations().then(async (locations) => {
     console.log("Getting prices from each location...")
-    const products: { code: string, name: string, priceList: number[],}[] = []
+    const products: { code: string, name: string, priceList: number[] }[] = []
 
     for(let location of locations) {
       // These locations are present on the locations database, but don't have an online menu, presumably because they are small, rural locations.
@@ -42,6 +42,8 @@ export async function POST(request: NextRequest) {
 
       for(let category of json) {
         for(let product of category.products) {
+          if(!product.purchasable) continue;
+
           const existingProduct = products.find(p => p.code === product.code)
           if(existingProduct) {
             existingProduct.priceList.push(product.price.value)
