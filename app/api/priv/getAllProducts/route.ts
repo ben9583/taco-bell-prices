@@ -29,6 +29,8 @@ export async function POST(request: NextRequest) {
     console.log("Getting prices from each location...")
     const products: { code: string, name: string, priceList: number[] }[] = []
 
+    const minMaxMap: { [key: string]: { min: { price: number, storeID: string }, max: { price: number, storeID: string } } } = {}
+
     for(let location of locations) {
       // These locations are present on the locations database, but don't have an online menu, presumably because they are small, rural locations.
       if(location.match(/[A-Z]/)) continue
@@ -54,6 +56,29 @@ export async function POST(request: NextRequest) {
               priceList: [product.price.value],
             })
           }
+
+          const existingMinMax = minMaxMap[product.code]
+          if(existingMinMax) {
+            if(existingMinMax.min.price > product.price.value) {
+              existingMinMax.min.price = product.price.value
+              existingMinMax.min.storeID = location
+            }
+            if(existingMinMax.max.price < product.price.value) {
+              existingMinMax.max.price = product.price.value
+              existingMinMax.max.storeID = location
+            }
+          } else {
+            minMaxMap[product.code] = {
+              min: {
+                price: product.price.value,
+                storeID: location,
+              },
+              max: {
+                price: product.price.value,
+                storeID: location,
+              },
+            }
+          }
         }
       }
     }
@@ -62,12 +87,14 @@ export async function POST(request: NextRequest) {
       return {
         code: product.code,
         name: product.name,
+        minLocation: minMaxMap[product.code].min.storeID,
+        maxLocation: minMaxMap[product.code].max.storeID,
         price: {
           average: product.priceList.reduce((a, b) => a + b, 0) / product.priceList.length,
           min: Math.min(...product.priceList),
           max: Math.max(...product.priceList),
           stddev: Math.sqrt(product.priceList.map(x => Math.pow(x - product.priceList.reduce((a, b) => a + b, 0) / product.priceList.length, 2)).reduce((a, b) => a + b, 0) / product.priceList.length),
-        }
+        },
       }
     })
 

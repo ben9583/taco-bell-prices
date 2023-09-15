@@ -3,6 +3,7 @@ import styles from './page.module.css'
 import { notFound } from 'next/navigation';
 import Image from 'next/image';
 import type { TacoBellPricesCategoryWithPriceStats } from '../../../lib/taco-bell-prices/types';
+import { priceToColor } from '../../../lib/taco-bell-prices/utils';
 
 export default async function Page({ params }) {
   const { id } = params;
@@ -27,7 +28,6 @@ export default async function Page({ params }) {
   const res2 = await fetch(`http://127.0.0.1:3000/api/getAllProducts`);
   if(res2.ok) {
     const allProducts: { code: string, name: string, price: { average: number, min: number, max: number, stddev: number } }[] = await res2.json();
-    console.log(JSON.stringify(allProducts, null, 2))
     products.map(category => {
       category.products.map(product => {
         let foundProduct = allProducts.find(p => p.code === product.code);
@@ -47,9 +47,9 @@ export default async function Page({ params }) {
           <h2>{category.name}</h2>
           <div className={styles.products}>
             {category.products.map(product => (
-              <div className={styles.product} key={product.name} style={{backgroundColor: product.priceStats ? `hsl(${120 * sigmoid((product.priceStats.average - product.price.value) / (product.priceStats.stddev || 0.01))}, 100%, 33%)` : ''}}>
+              <div className={styles.product} key={product.name} style={{backgroundColor: product.priceStats ? priceToColor(product.price.value, product.priceStats.average) : ''}}>
                 <h3>{product.name}</h3>
-                <p>{product.price.formattedValue}</p>
+                <p>{product.price.formattedValue} (Average ${product.priceStats.average.toFixed(2)}, {(product.price.value - product.priceStats.average)/(product.priceStats.average || 1) >= 0 ? '+' : ''}{(100 * (product.price.value - product.priceStats.average)/(product.priceStats.average || 1)).toFixed(2)}%)</p>
                 <Image src={product.images[0]} width={200} height={200} alt="image" />
               </div>
             ))}

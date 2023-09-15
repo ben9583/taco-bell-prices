@@ -3,6 +3,7 @@ import styles from './page.module.css'
 import { Fragment } from 'react';
 import { notFound } from "next/navigation"
 import { TacoBellPricesCategory } from '../../lib/taco-bell-prices/types';
+import { priceToColor } from '../../lib/taco-bell-prices/utils';
 
 interface ItemWithPrices {
   code: string;
@@ -109,7 +110,7 @@ export default async function Page(props: { params: {}, searchParams: { stores?:
             <h3>{prod.name}</h3>
           </div>
           {prod.formattedPrices.map((price, priceIdx) => (
-            <div key={priceIdx} style={{backgroundColor: prod.priceStats.average ? `hsl(${120 * sigmoid((prod.priceStats.average - parseInt(price.substring(1))) / (prod.priceStats.stddev || 0.01))}, 100%, 33%)` : ''}}>
+            <div key={priceIdx} style={{backgroundColor: prod.priceStats.average ? priceToColor(parseInt(price.substring(1)), prod.priceStats.average) : ''}}>
               <p>{price}</p>
             </div>
           ))}
