@@ -48,7 +48,11 @@ export default async function Page({ params }) {
             {category.products.map(product => (
               <div className={styles.product} key={product.name} style={{backgroundColor: product.priceStats ? priceToColor(product.price.value, product.priceStats.average) : ''}}>
                 <h3>{product.name}</h3>
-                <p>{product.price.formattedValue} (Average ${product.priceStats.average.toFixed(2)}, {(product.price.value - product.priceStats.average)/(product.priceStats.average || 1) >= 0 ? '+' : ''}{(100 * (product.price.value - product.priceStats.average)/(product.priceStats.average || 1)).toFixed(2)}%)</p>
+                {product.priceStats && (
+                  <p>{product.price.formattedValue} (Average ${product.priceStats.average.toFixed(2)}, {(product.price.value - product.priceStats.average)/(product.priceStats.average || 1) >= 0 ? '+' : ''}{(100 * (product.price.value - product.priceStats.average)/(product.priceStats.average || 1)).toFixed(2)}%)</p>
+                ) || (
+                  <p>{product.price.formattedValue}</p>
+                )}
                 <Image src={product.images[0]} width={200} height={200} alt="image" />
               </div>
             ))}
