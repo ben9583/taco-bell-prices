@@ -19,8 +19,9 @@ export default async function Page({ params }) {
 
   const products: TacoBellPricesCategoryWithPriceStats[] = await res.json();
 
-  if(products[0].code === "TacoLoversPass") {
-    products.splice(0, 1);
+  const removeThisIdx = products.findIndex(p => p.code === "tacoloverspass");
+  if(removeThisIdx > -1) {
+    products.splice(removeThisIdx, removeThisIdx + 1);
   }
 
   const sigmoid = (x: number) => 1 / (1 + Math.exp(-2*x));
