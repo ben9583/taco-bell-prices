@@ -24,8 +24,6 @@ export default async function Page({ params }) {
     products.splice(removeThisIdx, removeThisIdx + 1);
   }
 
-  const sigmoid = (x: number) => 1 / (1 + Math.exp(-2*x));
-
   const res2 = await fetch(`http://127.0.0.1:3000/api/getAllProducts`);
   if(res2.ok) {
     const allProducts: { code: string, name: string, price: { average: number, min: number, max: number, stddev: number } }[] = await res2.json();
