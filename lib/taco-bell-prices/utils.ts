@@ -1,6 +1,6 @@
 export const priceToColor = (x, avg) => {
-  if(avg < 0.5) {
-    if(x < avg) return "hsl(60, 100%, 33%)"
+  if(avg < 0.1) {
+    if(x <= avg) return "hsl(120, 100%, 33%)"
     return "hsl(0, 100%, 33%)"
   }
 
