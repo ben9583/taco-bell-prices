@@ -2,7 +2,7 @@
 
 import styles from './page.module.css'
 
-import { useState } from 'react';
+import { KeyboardEventHandler, useState } from 'react';
 import LoadingSVG from '../assets/loading.svg';
 import TacoBellStoreBox from '../components/TacoBellStoreBox';
 import Image from 'next/image';
@@ -49,13 +49,20 @@ export default function Page() {
     return prom;
   };
 
+  const onEnterPressed: KeyboardEventHandler<HTMLInputElement> = (e) => {
+    if(e.key === "Enter") {
+      console.log(e)
+      getStores();
+    }
+  }
+
   return (
     <main className={styles.content}>
       <h1 className={styles.title}>Taco Bell Price Comparer</h1>
       <p className={styles.description}>Compare the prices of Taco Bell items across the country.</p>
 
       <div className={styles.searchUtility}>
-        <input type="text" className={styles.input} placeholder="Search by address, city, or zip" onChange={e => setStoresInput(e.target.value)} value={storesInput} />
+        <input type="text" className={styles.input} placeholder="Search by address, city, or zip" onChange={e => setStoresInput(e.target.value)} value={storesInput} onKeyDown={onEnterPressed} />
         <button className={styles.button} onClick={getStores}>Search</button>
       </div>
 
